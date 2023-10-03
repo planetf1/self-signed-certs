@@ -22,8 +22,8 @@
 set -e
 
 # Add any additional keys here
-SERVERCERTS="serverA serverB"
-CLIENTCERTS="clientA clientB"
+SERVERCERTS="ServerA ServerB"
+CLIENTCERTS="ClientA ClientB"
 
 # This file contains the Certificate Authority when we are using our own certs
 TRUSTSTORE=MyCA.p12
@@ -131,6 +131,7 @@ for cert in ${SERVERCERTS}; do
   cat ${rootCA}/certs/${rootCA}.cert.pem ${iCA}/certs/${iCA}.cert.pem >tmp.pem
   openssl pkcs12 -export -chain -in ${FNAME}.cert.pem -CAfile tmp.pem -inkey ${FNAME}.key.pem -name $FNAME -out ${FNAME}.p12 \
     -passin pass:${KEYPASS} -passout pass:${KEYPASS}
+  cat ${FNAME}.cert.pem ${iCA}/certs/${iCA}.cert.pem ${rootCA}/certs/${rootCA}.cert.pem >> ${FNAME}_chain.pem
 done
 
 # ---
@@ -149,6 +150,7 @@ for cert in ${CLIENTCERTS}; do
   cat ${rootCA}/certs/${rootCA}.cert.pem ${iCA}/certs/${iCA}.cert.pem >tmp.pem
   openssl pkcs12 -export -in ${FNAME}.cert.pem -CAfile tmp.pem -inkey ${FNAME}.key.pem -name $FNAME -out ${FNAME}.p12 \
     -passin pass:${KEYPASS} -passout pass:${KEYPASS}
+  cat ${FNAME}.cert.pem ${iCA}/certs/${iCA}.cert.pem ${rootCA}/certs/${rootCA}.cert.pem >> ${FNAME}_chain.pem
 done
 
 # ---

@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 <!-- Copyright Contributors to the Egeria project. -->
 
-# Transport Level Security in Egeria & Certificates
+# Sample certificates
 
 The `gensamplecerts.sh` script is used for generating self-signed certificates for testing.
 Once the certificates are created, the script copies them into the right locations to be picked up by applications
